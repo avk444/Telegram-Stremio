@@ -39,7 +39,15 @@ _DEFAULTS: Dict[str, Any] = {
     "announcement_channel": "",
     "skip_channel": "",
     "delete_on_metadata_fail": False,
+    "better_poster_enabled": False,
     "better_poster": "",
+    "rpdb_enabled": False,
+    "rpdb_api_key": "",
+    "fanart_enabled": False,
+    "fanart_api_key": "",
+    "fanart_shuffle": False,
+    "fanart_shuffle_interval": 5,
+    "fanart_low_res_poster": True,
 }
 
 
@@ -181,13 +189,48 @@ class Settings:
         return str(self._d.get("payment_qr_url") or "")
 
     @property
+    def better_poster_enabled(self) -> bool:
+        return bool(self._d.get("better_poster_enabled", False))
+
+    @property
     def better_poster(self) -> str:
         return str(self._d.get("better_poster") or "").strip()
+
+    @property
+    def rpdb_enabled(self) -> bool:
+        return bool(self._d.get("rpdb_enabled", False))
+
+    @property
+    def rpdb_api_key(self) -> str:
+        return str(self._d.get("rpdb_api_key") or "").strip()
+
+    @property
+    def fanart_enabled(self) -> bool:
+        return bool(self._d.get("fanart_enabled", False))
+
+    @property
+    def fanart_api_key(self) -> str:
+        return str(self._d.get("fanart_api_key") or "").strip()
+
+    @property
+    def fanart_shuffle(self) -> bool:
+        return bool(self._d.get("fanart_shuffle", False))
+
+    @property
+    def fanart_low_res_poster(self) -> bool:
+        return bool(self._d.get("fanart_low_res_poster", True))
 
     #----- Integers
     @property
     def subscription_group_id(self) -> int:
         return int(self._d.get("subscription_group_id") or 0)
+
+    @property
+    def fanart_shuffle_interval(self) -> int:
+        try:
+            return max(0, int(self._d.get("fanart_shuffle_interval", 5)))
+        except (ValueError, TypeError):
+            return 5
 
     #----- Lists
     @property
